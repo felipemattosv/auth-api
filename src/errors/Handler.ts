@@ -11,7 +11,7 @@ import {
     appError,
     alreadyExists,
     errorMessage,
-  } from "../utils/Returns";
+  } from "../utils/returns";
   import AppError from "./AppError";
   import DuplicateKeyError from "./internal/DuplicateKeyError";
 import { HttpStatusCode } from "src/enums/HttpStatusCode";
@@ -39,6 +39,7 @@ import { HttpStatusCode } from "src/enums/HttpStatusCode";
           return appError(err);
         }
   
+        /*
         if (event.requestContext.stage === "dev")
           return errorMessage(
             {
@@ -54,6 +55,7 @@ import { HttpStatusCode } from "src/enums/HttpStatusCode";
             "content",
             HttpStatusCode.INTERNAL_ERROR
           );
+        */
   
         return internalServerError();
       }

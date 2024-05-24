@@ -1,13 +1,12 @@
-import type { AWS } from '@serverless/typescript';
-import { helloRoutes } from 'src/routes/hello.routes';
+import { Serverless } from 'serverless/aws';
 
-const serverlessConfiguration: AWS = {
+const serverlessConfiguration: Serverless = {
   service: 'aws-serverless-template',
   frameworkVersion: '3',
-  plugins: ['serverless-esbuild', "serverless-offline"],
+  plugins: ['serverless-esbuild', "serverless-offline", 'serverless-dotenv-plugin'],
   provider: {
     name: 'aws',
-    runtime: 'nodejs14.x',
+    runtime: 'nodejs18.x',
     apiGateway: {
       minimumCompressionSize: 1024,
       shouldStartNameWithService: true,
@@ -18,7 +17,7 @@ const serverlessConfiguration: AWS = {
     },
   },
   // import the function via paths
-  functions: { ...helloRoutes },
+  functions: {},
   package: { individually: true },
   custom: {
     esbuild: {
@@ -26,7 +25,7 @@ const serverlessConfiguration: AWS = {
       minify: false,
       sourcemap: true,
       exclude: ['aws-sdk'],
-      target: 'node14',
+      target: 'node18',
       define: { 'require.resolve': undefined },
       platform: 'node',
       concurrency: 10,
