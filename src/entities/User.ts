@@ -1,7 +1,6 @@
 import { Role } from "src/enums/Role";
 
 type User = {
-  id: string;
   name: string;
   email: string;
   role: Role;
@@ -10,6 +9,8 @@ type User = {
   updatedAt: number;
 };
 
-type UserToken = Omit<User, 'id' | 'password'>
+type UserToken = Omit<User, 'password'>
 
-export { User, UserToken };
+type UserLogin = Pick<User, 'email' | 'password'>
+
+export { User, UserToken, UserLogin };
