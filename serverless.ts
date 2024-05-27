@@ -1,5 +1,7 @@
 import { Serverless } from 'serverless/aws';
 
+import { baseRoutes } from 'src/routes/base';
+
 const serverlessConfiguration: Serverless = {
   service: 'aws-serverless-template',
   frameworkVersion: '3',
@@ -17,7 +19,9 @@ const serverlessConfiguration: Serverless = {
     },
   },
   // import the function via paths
-  functions: {},
+  functions: {
+    ...baseRoutes,
+  },
   package: { individually: true },
   custom: {
     esbuild: {
