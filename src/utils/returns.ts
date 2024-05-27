@@ -5,6 +5,7 @@ import ClientError from "../errors/ClientError";
 import InternalError from "../errors/internal/InternalError";
 import NotFoundError from "../errors/NotFoundError";
 import { HttpStatusCode } from "src/enums/HttpStatusCode";
+import UnauthorizedError from "src/errors/UnauthorizedError";
 
 // Import all extensions
 // import "./extensions/array";
@@ -86,3 +87,8 @@ export const forbidden = (
   message = "forbidden access"
 ): APIGatewayProxyResult =>
   appError(new AppError(message, HttpStatusCode.FORBIDDEN));
+
+  export const unauthorized = (
+    message = "unauthorized access"
+  ): APIGatewayProxyResult =>
+    appError(new UnauthorizedError(message));
