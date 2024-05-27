@@ -1,6 +1,7 @@
 import { Serverless } from 'serverless/aws';
 
 import { baseRoutes } from 'src/routes/base';
+import { authRoutes } from 'src/routes/auth';
 
 const serverlessConfiguration: Serverless = {
   service: 'aws-serverless-template',
@@ -24,6 +25,7 @@ const serverlessConfiguration: Serverless = {
       handler: 'src/utils/auth.authenticate',
     },
     ...baseRoutes,
+    ...authRoutes,
   },
   package: { individually: true },
   custom: {
