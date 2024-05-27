@@ -20,6 +20,9 @@ const serverlessConfiguration: Serverless = {
   },
   // import the function via paths
   functions: {
+    authenticate: {
+      handler: 'src/utils/auth.authenticate',
+    },
     ...baseRoutes,
   },
   package: { individually: true },
