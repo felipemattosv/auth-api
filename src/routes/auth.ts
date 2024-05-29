@@ -25,4 +25,17 @@ export const authRoutes = {
       }
     ]
   },
+  CreateAccountByUser: {
+    handler:
+      "src/controllers/auth/CreateAccountByUserController.handle",
+    events: [
+      {
+        http: {
+          path: "auth/CreateAccountByUser",
+          method: "post",
+          cors: true,
+        }
+      }
+    ]
+  },
 }
