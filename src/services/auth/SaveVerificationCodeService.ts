@@ -1,11 +1,12 @@
+import { Code } from "src/entities/Code";
 import { addDocumentToCollection } from "src/utils/addDocumentToCollection";
 
 class SaveVerificationCodeService {
   async execute(email: string, verificationCode: string): Promise<boolean> {
     
-    const docInfo = {
+    const docInfo: Code = {
       email,
-      verificationCode,
+      code: verificationCode,
       createdAt: new Date().getTime(),
     };
 
