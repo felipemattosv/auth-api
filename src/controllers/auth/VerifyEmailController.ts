@@ -1,10 +1,12 @@
 import { APIGatewayProxyHandler } from "aws-lambda";
 import { Handler } from "src/errors/Handler";
-import { ok, badRequest, internalServerError  } from "src/utils/returns";
+import { ok, badRequest, internalServerError, conflict  } from "src/utils/returns";
 import { VerifyEmailSchema, VerifyEmailBody } from "src/schemas/CreateAccountSchemas";
 import { generateRandomCode } from "src/utils/generateRandomCode";
 import { SendEmailService } from "src/services/auth/SendEmailService";
 import { SaveVerificationCodeService } from "src/services/auth/SaveVerificationCodeService";
+import { GetUserService } from "src/services/auth/GetUserService";
+import { IGetUser } from "src/interfaces/IGetUser";
 
 const VerifyEmailController: APIGatewayProxyHandler = async (event) => {
 
@@ -18,6 +20,13 @@ const VerifyEmailController: APIGatewayProxyHandler = async (event) => {
     body = await VerifyEmailSchema.validateAsync(JSON.parse(event.body));
   } catch {
     return badRequest("invalid body");
+  }
+
+  const getUserService = new GetUserService();
+  const { emailExistsOnDatabase } : IGetUser = await getUserService.execute(body.email);
+
+  if (emailExistsOnDatabase) {
+    return conflict("email already used to create account");
   }
 
   const verificationCode: string = generateRandomCode(6);
