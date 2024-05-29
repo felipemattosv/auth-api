@@ -71,8 +71,8 @@ export const errorMessage = (
   };
 };
 
-export const internalServerError = (): APIGatewayProxyResult =>
-  appError(new InternalError(""));
+export const internalServerError = (message: string): APIGatewayProxyResult =>
+  appError(new InternalError(message));
 
 export const alreadyExists = (message: string): APIGatewayProxyResult =>
   appError(new BusinessError(message));
