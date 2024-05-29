@@ -11,5 +11,18 @@ export const authRoutes = {
         }
       }
     ]
-  }
+  },
+  VerifyEmail: {
+    handler:
+      "src/controllers/auth/VerifyEmailController.handle",
+    events: [
+      {
+        http: {
+          path: "auth/VerifyEmail",
+          method: "post",
+          cors: true,
+        }
+      }
+    ]
+  },
 }
