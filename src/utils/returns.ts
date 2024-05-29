@@ -6,6 +6,7 @@ import InternalError from "../errors/internal/InternalError";
 import NotFoundError from "../errors/NotFoundError";
 import { HttpStatusCode } from "src/enums/HttpStatusCode";
 import UnauthorizedError from "src/errors/UnauthorizedError";
+import ConflictError from "src/errors/ConflictError";
 
 // Import all extensions
 // import "./extensions/array";
@@ -88,7 +89,12 @@ export const forbidden = (
 ): APIGatewayProxyResult =>
   appError(new AppError(message, HttpStatusCode.FORBIDDEN));
 
-  export const unauthorized = (
-    message = "unauthorized access"
-  ): APIGatewayProxyResult =>
-    appError(new UnauthorizedError(message));
+export const unauthorized = (
+  message = "unauthorized access"
+): APIGatewayProxyResult =>
+  appError(new UnauthorizedError(message));
+
+export const conflict = (
+  message = "duplicate resource"
+): APIGatewayProxyResult =>
+  appError(new ConflictError(message));
