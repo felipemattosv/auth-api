@@ -6,7 +6,7 @@ import { IGetUser } from "src/interfaces/IGetUser";
 import { CreateAccountByUserBody, CreateAccountByUserSchema } from "src/schemas/CreateAccountSchemas";
 import { CreateUserService } from "src/services/auth/CreateUserService";
 import { GetUserService } from "src/services/auth/GetUserService";
-import { GetVerificationCodeService } from "src/services/auth/GetVerificationCodeService";
+import { GetCodeService } from "src/services/auth/GetCodeService";
 import { ok, badRequest, conflict, notFound, unauthorized, internalServerError } from "src/utils/returns";
 
 const CreateAccountByUserController: APIGatewayProxyHandler = async (event) => {
@@ -30,8 +30,8 @@ const CreateAccountByUserController: APIGatewayProxyHandler = async (event) => {
     return conflict("email already used to create account");
   }
 
-  const getVerificationCodeService = new GetVerificationCodeService();
-  const { codeWasFound, codeData }: IGetCode = await getVerificationCodeService.execute(body.email);
+  const getCodeService = new GetCodeService();
+  const { codeWasFound, codeData }: IGetCode = await getCodeService.execute(body.email, "verificationCodes");
   
   if (!codeWasFound) {
     return notFound("Verification code not found");

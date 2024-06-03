@@ -3,10 +3,10 @@ import { Code } from "src/entities/Code";
 import { IGetCode } from "src/interfaces/IGetCode";
 import { getDocumentById } from "src/utils/getDocumentById";
 
-class GetVerificationCodeService {
-  async execute(email: string): Promise<IGetCode> {
+class GetCodeService {
+  async execute(email: string, collection: string): Promise<IGetCode> {
 
-    const codeData: DocumentData = await getDocumentById('verificationCodes', email);
+    const codeData: DocumentData = await getDocumentById(collection, email);
 
     if (codeData) {
 
@@ -23,4 +23,4 @@ class GetVerificationCodeService {
   }
 }
 
-export { GetVerificationCodeService };
+export { GetCodeService };

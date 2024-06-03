@@ -4,7 +4,7 @@ import { ok, badRequest, internalServerError, conflict  } from "src/utils/return
 import { VerifyEmailSchema, VerifyEmailBody } from "src/schemas/CreateAccountSchemas";
 import { generateRandomCode } from "src/utils/generateRandomCode";
 import { SendEmailService } from "src/services/auth/SendEmailService";
-import { SaveVerificationCodeService } from "src/services/auth/SaveVerificationCodeService";
+import { SaveCodeService } from "src/services/auth/SaveCodeService";
 import { GetUserService } from "src/services/auth/GetUserService";
 import { IGetUser } from "src/interfaces/IGetUser";
 
@@ -31,8 +31,8 @@ const VerifyEmailController: APIGatewayProxyHandler = async (event) => {
 
   const verificationCode: string = generateRandomCode(6);
 
-  const saveVerificationCodeService = new SaveVerificationCodeService();
-  const codeSaved: boolean = await saveVerificationCodeService.execute(body.email, verificationCode);
+  const saveCodeService = new SaveCodeService();
+  const codeSaved: boolean = await saveCodeService.execute(body.email, verificationCode, "verificationCodes");
 
   if (!codeSaved) {
     return internalServerError("failed to save verification code, try again");
