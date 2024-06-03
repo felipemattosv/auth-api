@@ -38,4 +38,17 @@ export const authRoutes = {
       }
     ]
   },
+  SendRecoveryCode: {
+    handler:
+      "src/controllers/auth/SendRecoveryCodeController.handle",
+    events: [
+      {
+        http: {
+          path: "auth/SendRecoveryCode",
+          method: "post",
+          cors: true,
+        }
+      }
+    ]
+  },
 }
