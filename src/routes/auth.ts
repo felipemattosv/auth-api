@@ -51,4 +51,17 @@ export const authRoutes = {
       }
     ]
   },
+  ChangePassword: {
+    handler:
+      "src/controllers/auth/ChangePasswordController.handle",
+    events: [
+      {
+        http: {
+          path: "auth/ChangePassword",
+          method: "put",
+          cors: true,
+        }
+      }
+    ]
+  },
 }
