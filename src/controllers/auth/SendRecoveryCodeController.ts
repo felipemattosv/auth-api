@@ -54,7 +54,7 @@ const SendRecoveryCodeController: APIGatewayProxyHandler = async (event) => {
     return internalServerError("failed to send email, try again");
   }
 
-  return ok("message", "Verification code sent to email");
+  return ok("message", "Recovery code sent to email");
 };
 
 export const handle = Handler(SendRecoveryCodeController);
