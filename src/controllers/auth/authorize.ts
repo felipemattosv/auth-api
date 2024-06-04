@@ -16,4 +16,14 @@ const listUsers = (
     ]
   );
 
-export { listUsers };
+  const createAccountByAdmin = (
+    requestContext: APIGatewayEventRequestContextWithAuthorizer<APIGatewayEventDefaultAuthorizerContext>,
+  ): UserToken | undefined =>
+    baseAuthorizer(
+      requestContext,
+      [
+        Role.ADMIN,
+      ]
+    );
+
+export { listUsers, createAccountByAdmin };

@@ -38,6 +38,22 @@ export const authRoutes = {
       }
     ]
   },
+  CreateAccountByAdmin: {
+    handler:
+      "src/controllers/auth/CreateAccountByAdminController.handle",
+    events: [
+      {
+        http: {
+          path: "auth/CreateAccountByAdmin",
+          method: "post",
+          cors: true,
+          authorizer: { // need token
+            name: "authenticate"
+          }
+        }
+      }
+    ]
+  },
   SendRecoveryCode: {
     handler:
       "src/controllers/auth/SendRecoveryCodeController.handle",
