@@ -13,4 +13,6 @@ type UserToken = Omit<User, 'password'>
 
 type UserLogin = Pick<User, 'email' | 'password'>
 
-export { User, UserToken, UserLogin };
+type UserWithoutSensitiveData = Omit<User, 'password'>
+
+export { User, UserToken, UserLogin, UserWithoutSensitiveData };

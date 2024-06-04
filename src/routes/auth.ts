@@ -64,4 +64,20 @@ export const authRoutes = {
       }
     ]
   },
+  ListUsers: {
+    handler:
+      "src/controllers/auth/ListUsersController.handle",
+    events: [
+      {
+        http: {
+          path: "auth/ListUsers",
+          method: "get",
+          cors: true,
+          authorizer: { // need token
+            name: "authenticate"
+          }
+        }
+      }
+    ]
+  },
 }
