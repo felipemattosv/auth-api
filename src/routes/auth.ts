@@ -96,4 +96,20 @@ export const authRoutes = {
       }
     ]
   },
+  DeleteUser: {
+    handler:
+      "src/controllers/auth/DeleteUserController.handle",
+    events: [
+      {
+        http: {
+          path: "auth/DeleteUser",
+          method: "delete",
+          cors: true,
+          authorizer: { // need token
+            name: "authenticate"
+          }
+        }
+      }
+    ]
+  },
 }
