@@ -112,4 +112,20 @@ export const authRoutes = {
       }
     ]
   },
+  GetUserInfo: {
+    handler:
+      "src/controllers/auth/GetUserInfoController.handle",
+    events: [
+      {
+        http: {
+          path: "auth/GetUserInfo",
+          method: "get",
+          cors: true,
+          authorizer: { // need token
+            name: "authenticate"
+          }
+        }
+      }
+    ]
+  },
 }

@@ -36,4 +36,14 @@ const deleteUser = (
     ]
   );
 
-export { listUsers, createAccountByAdmin, deleteUser };
+const getUserInfo = (
+  requestContext: APIGatewayEventRequestContextWithAuthorizer<APIGatewayEventDefaultAuthorizerContext>,
+): UserToken | undefined =>
+   baseAuthorizer(
+    requestContext,
+    [
+      Role.ADMIN,
+    ]
+ );
+
+export { listUsers, createAccountByAdmin, deleteUser, getUserInfo };
