@@ -5,7 +5,7 @@ export const authRoutes = {
     events: [
       {
         http: {
-          path: "auth/login",
+          path: "auth/Login",
           method: "post",
           cors: true,
         }
