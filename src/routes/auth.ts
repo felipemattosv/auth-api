@@ -128,4 +128,20 @@ export const authRoutes = {
       }
     ]
   },
+  UpdateUserInfo: {
+    handler:
+      "src/controllers/auth/UpdateUserInfoController.handle",
+    events: [
+      {
+        http: {
+          path: "auth/UpdateUserInfo",
+          method: "put",
+          cors: true,
+          authorizer: { // need token
+            name: "authenticate"
+          }
+        }
+      }
+    ]
+  }
 }
