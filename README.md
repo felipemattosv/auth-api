@@ -1,95 +1,89 @@
-# Serverless - AWS Node.js Typescript
+# auth-api
 
-This project has been generated using the `aws-nodejs-typescript` template from the [Serverless framework](https://www.serverless.com/).
+Author: [@felipemattosv](https://github.com/felipemattosv)
 
-For detailed instructions, please refer to the [documentation](https://www.serverless.com/framework/docs/providers/aws/).
+## Description
 
-## Installation/deployment instructions
+This project is a authentication API that allows users to sign up, sign in, delete their account and update their account information. It also separates the users in two roles: admin and default.
 
-Depending on your preferred package manager, follow the instructions below to deploy your project.
+## Technologies
 
-> **Requirements**: NodeJS `lts/fermium (v.14.15.0)`. If you're using [nvm](https://github.com/nvm-sh/nvm), run `nvm use` to ensure you're using the same Node version in local and in your lambda's runtime.
+- [Node.js](https://nodejs.org/en): JS runtime
+- [TypeScript](https://www.typescriptlang.org): Adds syntax for types
+- [Serverless](https://www.serverless.com): Simplifies development/deploy of [AWS Lambda](https://aws.amazon.com/lambda/?nc1=h_ls) apps
+- [Firebase](https://firebase.google.com): Firebase Firestore is a NoSQL database
+- [Nodemailer](https://nodemailer.com): Send emails using Gmail API v1
 
-### Using NPM
+## Requirements
 
-- Run `npm i` to install the project dependencies
-- Run `npx sls deploy` to deploy this stack to AWS
+- Node.js 18.x
 
-### Using Yarn
+In the future, will be developed a Dockerfile to run the project in a container.
 
-- Run `yarn` to install the project dependencies
-- Run `yarn sls deploy` to deploy this stack to AWS
+## Run guide
 
-## Test your service
+1. Clone the repository
 
-This template contains a single lambda function triggered by an HTTP request made on the provisioned API Gateway REST API `/hello` route with `POST` method. The request body must be provided as `application/json`. The body structure is tested by API Gateway against `src/functions/hello/schema.ts` JSON-Schema definition: it must contain the `name` property.
-
-- requesting any other path than `/hello` with any other method than `POST` will result in API Gateway returning a `403` HTTP error code
-- sending a `POST` request to `/hello` with a payload **not** containing a string property named `name` will result in API Gateway returning a `400` HTTP error code
-- sending a `POST` request to `/hello` with a payload containing a string property named `name` will result in API Gateway returning a `200` HTTP status code with a message saluting the provided name and the detailed event processed by the lambda
-
-> :warning: As is, this template, once deployed, opens a **public** endpoint within your AWS account resources. Anybody with the URL can actively execute the API Gateway endpoint and the corresponding lambda. You should protect this endpoint with the authentication method of your choice.
-
-### Locally
-
-In order to test the hello function locally, run the following command:
-
-- `npx sls invoke local -f hello --path src/functions/hello/mock.json` if you're using NPM
-- `yarn sls invoke local -f hello --path src/functions/hello/mock.json` if you're using Yarn
-
-Check the [sls invoke local command documentation](https://www.serverless.com/framework/docs/providers/aws/cli-reference/invoke-local/) for more information.
-
-### Remotely
-
-Copy and replace your `url` - found in Serverless `deploy` command output - and `name` parameter in the following `curl` command in your terminal or in Postman to test your newly deployed application.
-
-```
-curl --location --request POST 'https://myApiEndpoint/dev/hello' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "name": "Frederic"
-}'
+```bash
+git clone www.github.com/felipemattosv/auth-api
 ```
 
-## Template features
+2. Install dependencies
 
-### Project structure
-
-The project code base is mainly located within the `src` folder. This folder is divided in:
-
-- `functions` - containing code base and configuration for your lambda functions
-- `libs` - containing shared code base between your lambdas
-
-```
-.
-├── src
-│   ├── functions               # Lambda configuration and source code folder
-│   │   ├── hello
-│   │   │   ├── handler.ts      # `Hello` lambda source code
-│   │   │   ├── index.ts        # `Hello` lambda Serverless configuration
-│   │   │   ├── mock.json       # `Hello` lambda input parameter, if any, for local invocation
-│   │   │   └── schema.ts       # `Hello` lambda input event JSON-Schema
-│   │   │
-│   │   └── index.ts            # Import/export of all lambda configurations
-│   │
-│   └── libs                    # Lambda shared code
-│       └── apiGateway.ts       # API Gateway specific helpers
-│       └── handlerResolver.ts  # Sharable library for resolving lambda handlers
-│       └── lambda.ts           # Lambda middleware
-│
-├── package.json
-├── serverless.ts               # Serverless service file
-├── tsconfig.json               # Typescript compiler configuration
-├── tsconfig.paths.json         # Typescript paths
-└── webpack.config.js           # Webpack configuration
+```bash
+yarn install
 ```
 
-### 3rd party libraries
+3. Create a `.env` file in the root of the project with the content specified in the `.env.example` file.
 
-- [json-schema-to-ts](https://github.com/ThomasAribart/json-schema-to-ts) - uses JSON-Schema definitions used by API Gateway for HTTP request validation to statically generate TypeScript types in your lambda's handler code base
-- [middy](https://github.com/middyjs/middy) - middleware engine for Node.Js lambda. This template uses [http-json-body-parser](https://github.com/middyjs/middy/tree/master/packages/http-json-body-parser) to convert API Gateway `event.body` property, originally passed as a stringified JSON, to its corresponding parsed object
-- [@serverless/typescript](https://github.com/serverless/typescript) - provides up-to-date TypeScript definitions for your `serverless.ts` service file
+4. Run the project
 
-### Advanced usage
+```bash
+yarn dev
+```
 
-Any tsconfig.json can be used, but if you do, set the environment variable `TS_NODE_CONFIG` for building the application, eg `TS_NODE_CONFIG=./tsconfig.app.json npx serverless webpack`
+## Routes available
+
+### Open Routes
+
+<span style="color: yellow;">POST</span> - `auth/Login`: Returns a JWT token if login information is correct
+
+<span style="color: yellow;">POST</span> - `auth/VerifyEmail`: Verify Email to create an account
+
+<span style="color: yellow;">POST</span> - `auth/CreateAccountByUser`: Create an account by user, using the verfification code sent by email
+
+<span style="color: yellow;">POST</span> - `auth/SendRecoveryCode`: Send a recovery code to the user's email
+
+<span style="color: blue;">PUT</span> - `auth/ChangePassword`: Change the user's password, using the recovery code sent by email
+
+<span style="color: blue;">PUT</span> - `auth/UpdateUserInfo`: Change user's info (NEED TOKEN)
+
+### Only-Admin Routes
+
+<span style="color: yellow;">POST</span> - `auth/CreateAccountByAdmin`: Create an account by admin (NEED TOKEN)
+
+<span style="color: green;">GET</span> - `auth/ListUsers`: List all users (NEED TOKEN)
+
+<span style="color: red;">DELETE</span> - `auth/DeleteUser`: Delete user's account (NEED TOKEN)
+
+<span style="color: green;">GET</span> - `auth/GetUserInfo`: Return user's info (NEED TOKEN)
+
+## Folder structure explanation
+
+```plaintext
+src
+├───controllers         # Contains the controllers of the routes. A controller is responsible for handling the request and returning a response.
+├───entities            # Contains the entities of the project. An entity is a type that represents a table in the database.
+├───enums               # Contains the enumerations of the project.
+├───errors              # Contains the definition of the HTTP errors.
+├───firebase            # Contains the Firebase configuration.
+├───interfaces          # Contains the interfaces of the project. An interface represents a contract of a service return.
+├───libs                # Contains additional libraries and modules used in the project.
+├───nodemailer          # Contains the Nodemailer configuration.
+├───routes              # Contains the definition of the routes of the project. A route is responsible for receiving the request and calling the controller.
+├───schemas             # Contains the schemas of the project. A Schema is used to validate the request body/params.
+├───services            # Contains the services of the project. A service is responsible for accessing the database and making external API calls.
+└───utils               # Contains the utility functions of the project.
+```
+
+![Node.js](https://img.shields.io/badge/-Node.js-8CC84C?style=flat-square&logo=Node.js&logoColor=white) ![TypeScript](https://img.shields.io/badge/-TypeScript-3178C6?style=flat-square&logo=TypeScript&logoColor=white) ![AWS Lambda](https://img.shields.io/badge/-AWS%20Lambda-232F3E?style=flat-square&logo=Amazon%20AWS&logoColor=white) ![Serverless](https://img.shields.io/badge/-Serverless-000000?style=flat-square&logo=Serverless&logoColor=white) ![Google Cloud Console](https://img.shields.io/badge/-Google%20Cloud%20Console-4285F4?style=flat-square&logo=Google%20Cloud&logoColor=white) ![Firebase](https://img.shields.io/badge/-Firebase-FFCA28?style=flat-square&logo=Firebase&logoColor=black)
